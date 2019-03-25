@@ -1,7 +1,10 @@
 This folder contains sample input python functions that are stored in the .txt format.
+
 Each input.txt file is a sample python function.
 
-Corresponding output of program is listed as below. You can also customize your own python function to test the program. 
+Corresponding output of program is listed as below. 
+
+You can also customize your own python function to test the program. 
 
 ### output1
 x * 2
