@@ -8,6 +8,10 @@ For simplicity, we will only consider pure python functions that:
 - Only have integer local variables.
 
 
-Dependency: 
+### Dependency: 
 - python3
 - z3 
+
+### Usage: 
+- Put your own test input file into /test folder
+- `python derive_retun_formula.py your_input_file.txt` 
