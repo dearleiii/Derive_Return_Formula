@@ -19,11 +19,12 @@ from blocks import *
 import sys
 import re
 
-test_dir = "/Users/dearleiii/Desktop/2019Duke/OA/Z3/"
-test_file = "input6.txt"
+test_dir = "./test/"
+test_file = sys.argv[1]
 
 if not isfile(join(test_dir, test_file)):
-    print("File does not exist.")
+    print("File does not exist. Please put your test file in /test folder.\n")
+    sys.exit(0)
 
 with open(join(test_dir, test_file)) as f:
     content = f.read().splitlines()
