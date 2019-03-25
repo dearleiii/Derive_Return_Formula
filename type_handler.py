@@ -3,6 +3,9 @@ from z3 import *
 import operator
 
 def get_z3_object(obj_str, x, y, z):
+    """
+    Convert the string type variable into z3 variable
+    """
     if obj_str.isnumeric():
         return int(obj_str)
     return {
@@ -12,6 +15,9 @@ def get_z3_object(obj_str, x, y, z):
     }[obj_str]
 
 def get_if_operator(op):
+    """
+    Convert the if condition operators (dtype: string) into python operator
+    """
     return {
         '>': operator.gt,
         '>=': operator.ge,
@@ -22,6 +28,9 @@ def get_if_operator(op):
     }[op]
 
 def get_operator_fn(op):
+    """
+    Convert general operators (dtype: string) into python operator
+    """
     return {
         '+' : operator.add,
         '-' : operator.sub,
@@ -39,6 +48,10 @@ def get_operator_fn(op):
     }[op]
 
 def def_handler():
+    """
+    Initialize z3 operator
+    :return:
+    """
     x = Int('x')
     y = Int('y')
     z = x
