@@ -19,48 +19,55 @@ from blocks import *
 import sys
 import re
 
-test_dir = "./test/"
-test_file = sys.argv[1]
+def main():
+    test_dir = "./test/"
+    test_file = sys.argv[1]
 
-if not isfile(join(test_dir, test_file)):
-    print("File does not exist. Please put your test file in /test folder.\n")
-    sys.exit(0)
+    if not isfile(join(test_dir, test_file)):
+        print("File does not exist. Please put your test file in /test folder.\n")
+        sys.exit(0)
 
-with open(join(test_dir, test_file)) as f:
-    content = f.read().splitlines()
-    for line_idx, line in enumerate(content):
-        # word_list = line.split()       # split each line on: ' ' only
-        word_list = list(filter(None, re.split("[: ]" ,line)))
-        line_type = word_list.pop(0)
+    # open file and read the file by lines/ blocks accordingly
+    with open(join(test_dir, test_file)) as f:
+        content = f.read().splitlines()
+        for line_idx, line in enumerate(content):
+            word_list = list(filter(None, re.split("[: ]", line)))  # split each line word by word
+            line_type = word_list.pop(0)
 
-        if line_type == "def":
-            x, y, z = def_handler()
-        elif line_type == "return":
-            # print("return line:", word_list)
-            output = return_handler(x, y, z, word_list)
-            break;  # no need for further lines?
-        elif line_type == "if":
-            #print("handle if line: ", word_list)
-            block1, block2 = get_if_blocks(line_idx, content)
-            # print("if block1 lines:{}, block 2 lines: {}".format(block1, block2))
+            # handle different line type: if line/ def line/ return line/ operation line
+            if line_type == "def":
+                x, y, z = def_handler()
+            elif line_type == "return":
+                output = return_handler(x, y, z, word_list)
 
-            if_step = if_handler(x, y, z, content, word_list, block1, block2)
-            # jump to outside if blocks-2
-            output = if_step
-            break;
-        else:
-            print("z3 operation line: ", word_list)
-            obj_target = z3_handler(line_type, x, y, z, word_list)
-            # line_type: the object need to be assign new value
-            if line_type == 'x':
-                x = obj_target
-            elif line_type == 'y':
-                y = obj_target
-            elif line_type == 'z':
-                z = obj_target
+                # exit program
+                break;
+            elif line_type == "if":
+                # get the two operation block for if operation, else operation
+                block1, block2 = get_if_blocks(line_idx, content)
+
+                # get the output of if block
+                if_step = if_handler(x, y, z, content, word_list, block1, block2)
+                output = if_step
+
+                # exit if block
+                break;
             else:
-                print("Please assign to the correct value among x, y, z.")
-                sys.exit(0)
+                # handle the normal operation line
+                obj_target = z3_handler(line_type, x, y, z, word_list)
+                # find out the updated z3 object, update with assigned equation
+                if line_type == 'x':
+                    x = obj_target
+                elif line_type == 'y':
+                    y = obj_target
+                elif line_type == 'z':
+                    z = obj_target
+                else:
+                    print("Please assign to the correct value among x, y, z.")
+                    sys.exit(0)
 
-# return z3 expression
-print("Output return value formula: \n", output)
+    # Print and return z3 expression
+    print("Output return value formula: \n", output)
+
+if __name__ == '__main__':
+    main()
