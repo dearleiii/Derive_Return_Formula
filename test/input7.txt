@@ -1,0 +1,9 @@
+def foo(x, y):
+    if x < 10:
+        if x > 3:
+            return y
+        return x - 3
+    x -= 10
+    if x < 10:
+        return x
+    return x - 10
