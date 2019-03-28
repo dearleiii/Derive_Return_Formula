@@ -39,6 +39,10 @@ def main():
             # handle different line type: if line/ def line/ return line/ operation line
             if line_type == "def":
                 x, y, z = def_handler()
+            elif line_type == "#":
+                # this is a mark down line
+                print(line)
+                continue
             elif line_type == "return":
                 output = return_handler(x, y, z, word_list)
 
