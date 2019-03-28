@@ -86,6 +86,10 @@ def get_if_blocks(line_if_idx, content):
 
     # assign level to each line
     for line_idx, line in enumerate(content[line_if_idx+1:]):
+        if not line.strip():
+            # this is for skip empty line
+            continue
+
         match = regex.match(line)
         if not match:
             raise ValueError(

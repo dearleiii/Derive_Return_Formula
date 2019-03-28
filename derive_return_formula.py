@@ -31,7 +31,9 @@ def main():
     with open(join(test_dir, test_file)) as f:
         content = f.read().splitlines()
         for line_idx, line in enumerate(content):
-            # if start with # , skip the line
+            if not line.strip():
+                # this is an empty line, skip line
+                continue
 
             word_list = list(filter(None, re.split("[: ]", line)))  # split each line word by word
             line_type = word_list.pop(0)
@@ -40,7 +42,7 @@ def main():
             if line_type == "def":
                 x, y, z = def_handler()
             elif line_type == "#":
-                # this is a mark down line
+                # this is a mark down line, skip
                 print(line)
                 continue
             elif line_type == "return":
