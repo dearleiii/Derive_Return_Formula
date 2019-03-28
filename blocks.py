@@ -139,7 +139,6 @@ def get_block_result(content, block, x, y, z):
     for line_idx in block:
         line = content[line_idx]
         word_list = list(filter(None, re.split("[: ]" ,line)))
-        print(word_list)
         line_type = word_list.pop(0)
 
         if line_type == "return":
