@@ -1,4 +1,5 @@
 def foo(x, y):
+
     if x < 10:
         return x
     x -= 10
