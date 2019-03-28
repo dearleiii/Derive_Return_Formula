@@ -61,6 +61,8 @@ def def_handler():
 def return_handler(x, y, z, word_list):
     # when no operation required but return directly
     if len(word_list) == 1:
+        if word_list[0].isnumeric():
+            return int(word_list[0])
         result =  get_z3_object(word_list[0], x, y, z)
 
         return result
@@ -130,6 +132,7 @@ def get_block_result(content, block, x, y, z):
     for line_idx in block:
         line = content[line_idx]
         word_list = list(filter(None, re.split("[: ]" ,line)))
+        print(word_list)
         line_type = word_list.pop(0)
 
         if line_type == "return":
