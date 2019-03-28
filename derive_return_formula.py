@@ -31,6 +31,8 @@ def main():
     with open(join(test_dir, test_file)) as f:
         content = f.read().splitlines()
         for line_idx, line in enumerate(content):
+            # if start with # , skip the line
+
             word_list = list(filter(None, re.split("[: ]", line)))  # split each line word by word
             line_type = word_list.pop(0)
 
