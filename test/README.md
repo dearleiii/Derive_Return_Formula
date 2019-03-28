@@ -8,7 +8,7 @@ You can also customize your own python function to test the program.
 
 ### output1
 ```
- x * 2
+x * 2
 or x + x
 ```
 
