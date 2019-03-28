@@ -6,13 +6,19 @@ def get_z3_object(obj_str, x, y, z):
     """
     Convert the string type variable into z3 variable
     """
-    if obj_str.isnumeric():
+    #if obj_str.isnumeric():
+    #    return int(obj_str)
+    try:
+        int(obj_str)
+        # is_num = True
         return int(obj_str)
-    return {
-        "x": x,
-        "y": y,
-        "z": z,
-    }[obj_str]
+    except ValueError:
+        # is_num = False
+        return {
+            "x": x,
+            "y": y,
+            "z": z,
+        }[obj_str]
 
 def get_if_operator(op):
     """
@@ -61,9 +67,7 @@ def def_handler():
 def return_handler(x, y, z, word_list):
     # when no operation required but return directly
     if len(word_list) == 1:
-        if word_list[0].isnumeric():
-            return int(word_list[0])
-        result =  get_z3_object(word_list[0], x, y, z)
+        result = get_z3_object(word_list[0], x, y, z)
 
         return result
 
