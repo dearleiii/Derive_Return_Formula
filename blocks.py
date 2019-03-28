@@ -1,13 +1,12 @@
 import re
 from z3 import *
 import operator
+import sys
 
 def get_z3_object(obj_str, x, y, z):
     """
     Convert the string type variable into z3 variable
     """
-    #if obj_str.isnumeric():
-    #    return int(obj_str)
     try:
         int(obj_str)
         # is_num = True
@@ -71,14 +70,18 @@ def return_handler(x, y, z, word_list):
 
         return result
 
-    # case when len(word_list) == 3
-    left_op = get_z3_object(word_list[0], x, y, z)
-    right_op = get_z3_object(word_list[2], x, y, z)
-    result = get_operator_fn(word_list[1])(left_op, right_op)
+    # general case for len(word_list)
+    if len(word_list) % 2 == 0:
+        print("Not a valid formula\n")
+        sys.exit(0)
+    else:
+        left_op = get_z3_object(word_list[0], x, y, z)
+        for i in range(0, len(word_list)-2, 2):
+            right_op = get_z3_object(word_list[i + 2], x, y, z)
+            result = get_operator_fn(word_list[i + 1])(left_op, right_op)
+            left_op = result
 
     return simplify(result)
-
-    # general case for len(word_list)
 
 def get_if_blocks(line_if_idx, content):
     regex = re.compile(r'^(?P<indent>(?: {4})*)(?P<name>\S.*)')
@@ -192,14 +195,21 @@ def z3_handler(obj_target, x, y, z, word_list):
 
             return obj_target
 
-        # len(word_list) == 3
-        left_op = get_z3_object(word_list[0], x, y, z)
-        right_op = get_z3_object(word_list[2], x, y, z)
-        obj_target = get_operator_fn(word_list[1])(left_op, right_op)
+        # general case for len(word_list)
+        if len(word_list) % 2 == 0:
+            print("Not a valid formula\n")
+            sys.exit(0)
+        else:
+            left_op = get_z3_object(word_list[0], x, y, z)
+            for i in range(0, len(word_list) - 2, 2):
+                right_op = get_z3_object(word_list[i + 2], x, y, z)
+                result = get_operator_fn(word_list[i + 1])(left_op, right_op)
+                left_op = result
 
-        return obj_target
+        return simplify(result)
+
     else:
-        # directly assign
+        # directly assign for operation +=, -= , *= ect.
         right_op = get_z3_object(word_list[0], x, y, z)
         obj_target = get_operator_fn(assign_op)(obj_target, right_op)
 
